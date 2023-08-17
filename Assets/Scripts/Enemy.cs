@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -8,10 +5,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] GameObject _deathVFX;
     [SerializeField] Transform _parent;
     [SerializeField] int _points = 15;
+    [SerializeField] int _health = 100;
+    [SerializeField] int _damage = 34;
+
     Scoreboard _scoreboard;
 
-    int _health = 100;
-    int _damage = 34;
 
     private void Start()
     {
@@ -20,14 +18,29 @@ public class Enemy : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
+        ProcessHits();
+    }
+
+    private void ProcessHits()
+    {
         _health = _health - _damage;
         Debug.Log($"Enemy has {_health}");
-        if(_health <= 0)
+        if (_health <= 0)
         {
-            GameObject vfx = Instantiate(_deathVFX, transform.position, Quaternion.identity);
-            vfx.transform.parent = _parent;
-            _scoreboard.UpdateScore(_points);
-            Destroy(gameObject);
+            KillEnemy();
+            ProcessDeath();
         }
+    }
+
+    private void KillEnemy()
+    {
+        GameObject vfx = Instantiate(_deathVFX, transform.position, Quaternion.identity);
+        vfx.transform.parent = _parent;
+        Destroy(gameObject);
+    }
+
+    private void ProcessDeath()
+    {
+        _scoreboard.UpdateScore(_points);
     }
 }
