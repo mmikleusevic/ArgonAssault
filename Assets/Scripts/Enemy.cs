@@ -29,15 +29,20 @@ public class Enemy : MonoBehaviour
         ProcessHits(other);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        KillEnemy();
+    }
+
     void ProcessHits(GameObject other)
     {
         _hitPoints = _hitPoints - _damage;
 
         ProcessEnemyHit(other);
-        ProcessScore();
 
         if (_hitPoints <= 0)
         {
+            ProcessScore();
             KillEnemy();
         }
     }

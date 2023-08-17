@@ -5,6 +5,7 @@ public class CollisionHandler : MonoBehaviour
 {
     [SerializeField] float _loadDelay = 1f;
     [SerializeField] ParticleSystem _playerExplosion;
+
     private void OnTriggerEnter(Collider collider)
     {
         StartCrashSequence();
