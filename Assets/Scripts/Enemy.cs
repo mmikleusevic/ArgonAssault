@@ -1,46 +1,83 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] GameObject _deathVFX;
-    [SerializeField] Transform _parent;
-    [SerializeField] int _points = 15;
-    [SerializeField] int _health = 100;
-    [SerializeField] int _damage = 34;
+    [SerializeField] GameObject _hitVFX;
+    [SerializeField] int _scorePerHit = 15;
+    [SerializeField] int _hitPoints = 3;
+    [SerializeField] int _damage = 1;
+  
+    readonly static string ITEMS_TO_DESTROY = "ItemsToDestroy";
 
     Scoreboard _scoreboard;
+    GameObject _parentGameObject;
 
-
-    private void Start()
+    void Start()
     {
         _scoreboard = FindObjectOfType<Scoreboard>();
+
+        Rigidbody rigidBody = gameObject.AddComponent<Rigidbody>();
+        rigidBody.useGravity = false;
+
+        _parentGameObject = GameObject.FindWithTag(ITEMS_TO_DESTROY);
     }
 
-    private void OnParticleCollision(GameObject other)
+    void OnParticleCollision(GameObject other)
     {
-        ProcessHits();
+        ProcessHits(other);
     }
 
-    private void ProcessHits()
+    void ProcessHits(GameObject other)
     {
-        _health = _health - _damage;
-        Debug.Log($"Enemy has {_health}");
-        if (_health <= 0)
+        _hitPoints = _hitPoints - _damage;
+
+        ProcessEnemyHit(other);
+        ProcessScore();
+
+        if (_hitPoints <= 0)
         {
             KillEnemy();
-            ProcessDeath();
         }
     }
 
-    private void KillEnemy()
+    void ProcessEnemyHit(GameObject other)
     {
-        GameObject vfx = Instantiate(_deathVFX, transform.position, Quaternion.identity);
-        vfx.transform.parent = _parent;
+        Vector3 locationOfHit = transform.position;
+
+        if (other.gameObject.GetComponent<ParticleSystem>() != null)
+        {
+            ParticleSystem laserParticles = other.gameObject.GetComponent<ParticleSystem>();
+
+            List<ParticleCollisionEvent> particleCollisionEvents = new List<ParticleCollisionEvent>();
+
+            int nNumParticleCollisions = laserParticles.GetCollisionEvents(this.gameObject, particleCollisionEvents);
+
+            if(nNumParticleCollisions > 0)
+            {
+                locationOfHit = particleCollisionEvents[0].intersection;
+            }
+        }
+
+        ProcessVFX(_hitVFX, locationOfHit);
+    }
+
+    void KillEnemy()
+    {
+        ProcessVFX(_deathVFX, transform.position);
         Destroy(gameObject);
     }
 
-    private void ProcessDeath()
+    void ProcessScore()
     {
-        _scoreboard.UpdateScore(_points);
+        _scoreboard.UpdateScore(_scorePerHit);
+    }
+
+    void ProcessVFX(GameObject visualEffect, Vector3 position)
+    {
+        GameObject vfx = Instantiate(visualEffect, position, Quaternion.identity);
+        vfx.transform.parent = _parentGameObject.transform;
+
     }
 }

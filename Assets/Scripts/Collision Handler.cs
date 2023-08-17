@@ -8,8 +8,6 @@ public class CollisionHandler : MonoBehaviour
     private void OnTriggerEnter(Collider collider)
     {
         StartCrashSequence();
-
-        Debug.Log($"{this.name} **triggered by** {collider.gameObject.name}");
     }
 
     void StartCrashSequence()
