@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4376087800999697211}
   m_Layer: 0
   m_Name: StarSparrow2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _loadDelay: 1
-  _playerExplosion: {fileID: 2105702438934939744}
+  _playerExplosionFX: {fileID: 7655828542234868834, guid: 3dd7ee1aad086a54b9de6bdf430cfa23, type: 3}
 --- !u!114 &9038915780587990515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,11 +372,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3dd7ee1aad086a54b9de6bdf430cfa23, type: 3}
---- !u!198 &2105702438934939744 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 579142151448906540, guid: 3dd7ee1aad086a54b9de6bdf430cfa23, type: 3}
-  m_PrefabInstance: {fileID: 1527128750049018700}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7327641776148271465 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8106603431882658341, guid: 3dd7ee1aad086a54b9de6bdf430cfa23, type: 3}

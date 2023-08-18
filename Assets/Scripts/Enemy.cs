@@ -1,22 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] GameObject _deathVFX;
+    [SerializeField] GameObject _deathFX;
     [SerializeField] GameObject _hitVFX;
     [SerializeField] int _scorePerHit = 15;
     [SerializeField] int _hitPoints = 3;
     [SerializeField] int _damage = 1;
   
-    readonly static string ITEMS_TO_DESTROY = "ItemsToDestroy";
-
     Scoreboard _scoreboard;
     GameObject _parentGameObject;
+    Effects _effects;
+
+    readonly static string ITEMS_TO_DESTROY = "ItemsToDestroy";
 
     void Start()
     {
         _scoreboard = FindObjectOfType<Scoreboard>();
+        _effects = Effects.Initialize();
 
         Rigidbody rigidBody = gameObject.AddComponent<Rigidbody>();
         rigidBody.useGravity = false;
@@ -65,24 +68,17 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        ProcessVFX(_hitVFX, locationOfHit);
+        _effects.ProcessFX(_hitVFX, locationOfHit, _parentGameObject);
     }
 
     void KillEnemy()
     {
-        ProcessVFX(_deathVFX, transform.position);
+        _effects.ProcessFX(_deathFX, transform.position, _parentGameObject);
         Destroy(gameObject);
     }
 
     void ProcessScore()
     {
         _scoreboard.UpdateScore(_scorePerHit);
-    }
-
-    void ProcessVFX(GameObject visualEffect, Vector3 position)
-    {
-        GameObject vfx = Instantiate(visualEffect, position, Quaternion.identity);
-        vfx.transform.parent = _parentGameObject.transform;
-
     }
 }

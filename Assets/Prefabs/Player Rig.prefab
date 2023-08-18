@@ -215,6 +215,10 @@ PrefabInstance:
       propertyPath: CollisionModule.type
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7766640517522996522, guid: 588e971f9ce069446bb4c898ef14c78f, type: 3}
+      propertyPath: _playerExplosion
+      value: 
+      objectReference: {fileID: 7655828542234868834, guid: 3dd7ee1aad086a54b9de6bdf430cfa23, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

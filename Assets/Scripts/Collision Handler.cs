@@ -3,8 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
+    [SerializeField] GameObject _playerExplosionFX;
     [SerializeField] float _loadDelay = 1f;
-    [SerializeField] ParticleSystem _playerExplosion;
+
+    Effects _effects;
+    GameObject _parentGameObject;
+
+    readonly static string PLAYER = "Player";
+
+    private void Start()
+    {
+        _parentGameObject = GameObject.FindWithTag(PLAYER);
+        _effects = Effects.Initialize();
+    }
 
     private void OnTriggerEnter(Collider collider)
     {
@@ -13,7 +24,7 @@ public class CollisionHandler : MonoBehaviour
 
     void StartCrashSequence()
     {
-        _playerExplosion.Play();
+        _effects.ProcessFX(_playerExplosionFX, transform.position, _parentGameObject);
 
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<BoxCollider>().enabled = false;
