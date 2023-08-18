@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _scoreboard = FindObjectOfType<Scoreboard>();
-        _effects = Effects.Initialize();
+        _effects = Effects.GetInstance();
 
         Rigidbody rigidBody = gameObject.AddComponent<Rigidbody>();
         rigidBody.useGravity = false;

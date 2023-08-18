@@ -9,7 +9,7 @@ public class Effects : ScriptableObject
 {
     static Effects _effects = null;
 
-    public static Effects Initialize()
+    public static Effects GetInstance()
     {
         if (_effects == null)
         {

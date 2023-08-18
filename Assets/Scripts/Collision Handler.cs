@@ -14,7 +14,7 @@ public class CollisionHandler : MonoBehaviour
     private void Start()
     {
         _parentGameObject = GameObject.FindWithTag(PLAYER);
-        _effects = Effects.Initialize();
+        _effects = Effects.GetInstance();
     }
 
     private void OnTriggerEnter(Collider collider)
