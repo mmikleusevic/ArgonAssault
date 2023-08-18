@@ -7,7 +7,7 @@ using UnityEngine;
 [InitializeOnLoad]
 public class Effects : ScriptableObject
 {
-    public static Effects _effects = null;
+    static Effects _effects = null;
 
     public static Effects Initialize()
     {
